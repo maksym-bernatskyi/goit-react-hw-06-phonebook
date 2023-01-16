@@ -13,3 +13,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.inputPhone {
+  margin-bottom: 10px;
+}
+
+textInputStyle {
+  padding: 5px;
+}
