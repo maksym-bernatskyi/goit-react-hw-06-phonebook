@@ -1,15 +1,19 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import Input from '../Input';
+import { add, getContactState } from '../Redux/contactsSlice';
+import { FormContainer, ButtonSubmit } from "./Form.styled";
 
-export default function Form({ onSubmit }) {
+const Form = () => {
     const [name, setName] = useState("");
     const [number, setNumber] = useState("");
     const [id, setId] = useState("");
+
+    const contacts = useSelector(getContactState);
+    const dispatch = useDispatch();
 
     const reset = () => {
         setName("");
@@ -18,10 +22,13 @@ export default function Form({ onSubmit }) {
     };
 
     const handleSubmit = (event) => {
-        if (number.length > 13)
-        return alert('Please enter correct phone number');
+        if (number.length > 13) {
+        return alert('Please enter correct phone number!');
+    }
+
+        const checkName = contacts.find((element) => element.name === name);
+        checkName === undefined ? dispatch(add({ name, number, id })) : alert(`${name} is already in contacts!`);
         event.preventDefault();
-        onSubmit({ name, number, id });
         reset();
     };
 
@@ -60,40 +67,4 @@ export default function Form({ onSubmit }) {
         );
     }
 
-    Form.propTypes = {
-        onSubmit: PropTypes.func.isRequired,
-    };
-
-const FormContainer = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    padding: 20px 0;
-    border-radius: 10px;
-    color: #fff;
-    background-color: #000;
-`;
-
-const ButtonSubmit = styled.button.attrs(() => ({ type: 'submit' }))`
-    position: relative;
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 30px;
-        border-radius: 5px;
-        transition: all 1s ease;
-    }
-    &:hover:before {
-        width: 100%;
-    }
-`;
+export default Form;

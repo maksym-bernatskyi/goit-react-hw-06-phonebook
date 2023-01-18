@@ -1,16 +1,31 @@
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from "react-redux";
+import { remove } from "../Redux/contactsSlice";
+import { ContainerList, Title, Wrapper, Item, ButtonClose, TextList } from "./ContactList.styled";
 
-const ContactList = ({ data, onDelete }) => {
+export const ContactList = () => {
+    const items = useSelector((state) => state.contacts.items);
+    const nameFilter = useSelector((state) => state.contacts.filter);
+    const dispatch = useDispatch();
+
+    const deleteContact = (contactId) => {
+        dispatch(remove(contactId));
+    };
+
+    const FilterItems = () => {
+        return items.filter((item) => item.name.toLowerCase().includes(nameFilter));
+    };
+
+    let contacts = nameFilter === "" ? items : FilterItems();
+
     return (
         <ContainerList>
             <Title>Contacts</Title>
-            {data.length > 0 ? (
+            {contacts.length > 0 ? (
                 <Wrapper>
-                    {data.map(({ id, name, number }, index) => (
+                    {contacts.map(({ id, name, number }, index) => (
                         <Item key={id} index={index}>
                             {name} : {number}
-                            <ButtonClose onClick={() => onDelete(id)}></ButtonClose>
+                            <ButtonClose onClick={() => deleteContact(id)}></ButtonClose>
                         </Item>
                     ))}
                 </Wrapper>
@@ -19,56 +34,4 @@ const ContactList = ({ data, onDelete }) => {
             )}
         </ContainerList>
     );
-};
-
-export default ContactList;
-
-const ContainerList = styled.div`
-    margin-top: 10px;
-`;
-
-const Title = styled.h2`
-    text-align: center;
-    font-size: 20px;
-`
-
-const Wrapper = styled.ul`
-    margin-top: 10px;
-    list-style: none;
-`
-
-const Item = styled.li`
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 300px;
-    border-radius: 5px;
-    color: #fff;
-    background-color: #000;
-`
-
-const ButtonClose = styled.button.attrs(() => ({ type: 'button', }))`
-    padding: 5px;
-    border-radius: 50%;
-    border: none;
-    margin-left: 10px;
-    cursor: pointer;
-`;
-
-const TextList = styled.span`
-    display: inline-block;
-    margin-top: 10px;
-`;
-
-ContactList.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            number: PropTypes.string.isRequired,
-        }),
-    ),
-    onDelete: PropTypes.func.isRequired,
 };

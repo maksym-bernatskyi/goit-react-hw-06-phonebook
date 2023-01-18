@@ -1,8 +1,14 @@
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import Container from '../Container';
+import { useDispatch, useSelector } from "react-redux";
+import { ContainerSearch, Title, Input } from "./Filter.styled";
+import { filter } from "../Redux/contactsSlice";
 
-const Filter = ({ value, onChange }) => {
+const Filter = () => {
+    const dispatch = useDispatch();
+    const value = useSelector((state) => state.contacts.filter);
+    const onChange = (event) => {
+        dispatch(filter(event.currentTarget.value.toLowerCase()));
+    };
+
     return (
         <ContainerSearch>
             <Title>Find contacts by name</Title>
@@ -17,28 +23,3 @@ const Filter = ({ value, onChange }) => {
 };
 
 export default Filter;
-
-const ContainerSearch = styled(Container)`
-    width: 300px;
-    padding: 10px 0;
-    margin: 20px 0;
-    border-radius: 15px;
-    color: #fff;
-    background: #000;
-`;
-
-const Title = styled.h2`
-    font-size: 20px;
-`;
-
-const Input = styled.input`
-    margin-top: 10px;
-    padding: 5px;
-    border: none;
-    border-radius: 10px;
-`;
-
-Filter.propTypes = {
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-};
