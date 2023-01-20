@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import Input from '../Input';
-import { add, getContactState } from '../Redux/contactsSlice';
+import { add, getContactsState } from '../Redux/contactsSlice';
 import { FormContainer, ButtonSubmit } from "./Form.styled";
 
 const Form = () => {
@@ -12,7 +12,7 @@ const Form = () => {
     const [number, setNumber] = useState("");
     const [id, setId] = useState("");
 
-    const contacts = useSelector(getContactState);
+    const contacts = useSelector(getContactsState);
     const dispatch = useDispatch();
 
     const reset = () => {
