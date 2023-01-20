@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../Redux/contactsSlice";
 import { ContainerList, Title, Wrapper, Item, ButtonClose, TextList } from "./ContactList.styled";
 
-export const ContactList = () => {
+const ContactList = () => {
     const items = useSelector((state) => state.contacts.items);
     const nameFilter = useSelector((state) => state.contacts.filter);
     const dispatch = useDispatch();
@@ -35,3 +35,5 @@ export const ContactList = () => {
         </ContainerList>
     );
 };
+
+export default ContactList;
