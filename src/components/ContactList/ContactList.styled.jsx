@@ -23,7 +23,7 @@ export const Item = styled.li`
     font-weight: bold;
     width: 300px;
     border-radius: 5px;
-    color: #ffffff;
+    color: #000;
 `;
 
 export const ButtonClose = styled.button.attrs(() => ({ type: "button" }))`
