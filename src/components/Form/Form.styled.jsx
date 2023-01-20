@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const FormContainer = styled.form`
+export const FormContainer = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,7 +11,7 @@ const FormContainer = styled.form`
     background-color: #000;
 `;
 
-const ButtonSubmit = styled.button.attrs(() => ({ type: 'submit' }))`
+export const ButtonSubmit = styled.button.attrs(() => ({ type: 'submit' }))`
     position: relative;
     display: inline-block;
     padding: 5px 10px;
